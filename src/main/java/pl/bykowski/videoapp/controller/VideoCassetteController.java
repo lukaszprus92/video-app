@@ -38,19 +38,15 @@ public class VideoCassetteController {
         videoCassetteService.save(videoCassette);
     }
 
-    /*
-    @PutMapping("/{index}")
-    public void updateVideo (@PathVariable Long index, @RequestBody VideoCassette videoCassette){
-       VideoCassette first = videoCassettes.stream().filter(element -> element.getId() == index).findFirst().get();
-       first.setProductionYear(videoCassette.getProductionYear());
-       first.setTitle(videoCassette.getTitle());
-       //nie robić całego obiektu metodą .set, bo on chce na początku inta który jest indexem od 0 w bazie danych, a nie moim wymyślonym id, które sie od niego różni
-    }  // COMMAND + SHIFT + /     */
+    @PutMapping()
+    public void updateVideo(@RequestBody VideoCassette videoCassette) {
+        videoCassetteService.save(videoCassette);
+    }
 
-    @PutMapping("/{id}")
+    /*@PutMapping("/{id}")
     public void updateVideo (@PathVariable Long id, @RequestParam String title, @RequestParam LocalDate productionYear){
         videoCassetteService.modify(id, title, productionYear);
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public void deleteVideo (@PathVariable Long id){

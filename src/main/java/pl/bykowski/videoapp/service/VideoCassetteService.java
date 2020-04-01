@@ -31,10 +31,11 @@ public class VideoCassetteService {
     public void save(VideoCassette videoCassette){
         videoCassetteRepository.save(videoCassette);
     }
-    public void modify(Long id, String title, LocalDate productionYear){
+
+    /*public void modify(Long id, String title, LocalDate productionYear){
         VideoCassette videoCassette = new VideoCassette(id, title, productionYear);
         videoCassetteRepository.save(videoCassette);
-    }
+    }*/
 
     public void deleteById(Long id){
         videoCassetteRepository.deleteById(id);
