@@ -1,8 +1,10 @@
 package pl.bykowski.videoapp.controller;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import pl.bykowski.videoapp.model.VideoCassette;
+import pl.bykowski.videoapp.service.VideoCassetteService;
 
 import javax.swing.text.html.Option;
 import java.time.LocalDate;
@@ -14,47 +16,46 @@ import java.util.Optional;
 @RequestMapping("/api/cassettes")
 public class VideoCassetteController {
 
-    private List<VideoCassette> videoCassettes;
+    private VideoCassetteService videoCassetteService;
 
-    public VideoCassetteController() {
-        videoCassettes = new ArrayList<>();
-        videoCassettes.add(new VideoCassette(1L, "Titanic", LocalDate.of(1995, 1, 1)));
-        videoCassettes.add(new VideoCassette(2L, "Pulp Fiction", LocalDate.of(1990, 2, 2)));
+    @Autowired
+    public VideoCassetteController(VideoCassetteService videoCassetteService) {
+        this.videoCassetteService = videoCassetteService;
     }
 
     @GetMapping
-    public List<VideoCassette> getAll(){
-        return videoCassettes;
+    public Iterable<VideoCassette> getAll(){
+        return videoCassetteService.findAll();
     }
 
-    @GetMapping("/{index}")
-    public VideoCassette getById(@PathVariable Long index){
-        Optional<VideoCassette> first = videoCassettes.stream().filter(element -> element.getId() == index).findFirst();
-        return first.get();
+    @GetMapping("/{id}")
+    public Optional<VideoCassette> getById(@PathVariable Long id){
+        return videoCassetteService.findById(id);
     }
 
     @PostMapping()
     public void addVideo(@RequestBody VideoCassette videoCassette) {
-        videoCassettes.add(videoCassette);
+        videoCassetteService.save(videoCassette);
     }
 
+    /*
     @PutMapping("/{index}")
     public void updateVideo (@PathVariable Long index, @RequestBody VideoCassette videoCassette){
-       VideoCassette chuj = videoCassettes.stream().filter(element -> element.getId() == index).findFirst().get();
-       chuj.setProductionYear(videoCassette.getProductionYear());
-       chuj.setTitle(videoCassette.getTitle());
+       VideoCassette first = videoCassettes.stream().filter(element -> element.getId() == index).findFirst().get();
+       first.setProductionYear(videoCassette.getProductionYear());
+       first.setTitle(videoCassette.getTitle());
+       //nie robić całego obiektu metodą .set, bo on chce na początku inta który jest indexem od 0 w bazie danych, a nie moim wymyślonym id, które sie od niego różni
+    }  // COMMAND + SHIFT + /     */
 
-
-        // To .set chce na początku inta który jest indexem w tabeli, a nie moim id, które sie różni
-       // videoCassettes.set(Math.toIntExact(index), videoCassette);
+    @PutMapping("/{id}")
+    public void updateVideo (@PathVariable Long id, @RequestParam String title, @RequestParam LocalDate productionYear){
+        videoCassetteService.modify(id, title, productionYear);
     }
 
-    @DeleteMapping("/{index}")
-    public void deleteVideo (@PathVariable Long index){
-        videoCassettes.removeIf(element -> element.getId() == index);
-
+    @DeleteMapping("/{id}")
+    public void deleteVideo (@PathVariable Long id){
+        videoCassetteService.deleteById(id);
     }
-
 
 
 
