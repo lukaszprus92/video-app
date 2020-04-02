@@ -30,16 +30,10 @@ public class VideoCassetteService {
     }
 
     public void modify(Long id, VideoCassette newVideoCassette){
-
-        /*VideoCassette oldVideoCassette = videoCassetteRepository.findById(id).get();
+        VideoCassette oldVideoCassette = videoCassetteRepository.findById(id).get();
         oldVideoCassette.setTitle(newVideoCassette.getTitle());
         oldVideoCassette.setProductionYear(newVideoCassette.getProductionYear());
-        videoCassetteRepository.save(oldVideoCassette);*/
-
-        // oba działają, ale ten mi czyściej wygląda
-        videoCassetteRepository.findById(id).get().setTitle(newVideoCassette.getTitle());
-        videoCassetteRepository.findById(id).get().setProductionYear(newVideoCassette.getProductionYear());
-        videoCassetteRepository.save(videoCassetteRepository.findById(id).get());
+        videoCassetteRepository.save(oldVideoCassette);
     }
 
     public void deleteById(Long id){
