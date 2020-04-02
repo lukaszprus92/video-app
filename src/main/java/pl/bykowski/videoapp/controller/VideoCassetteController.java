@@ -2,15 +2,12 @@ package pl.bykowski.videoapp.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.bykowski.videoapp.exception.VideoCassetteNotFound;
 import pl.bykowski.videoapp.model.VideoCassette;
 import pl.bykowski.videoapp.service.VideoCassetteService;
-
-import javax.swing.text.html.Option;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/cassettes")
@@ -29,7 +26,7 @@ public class VideoCassetteController {
     }
 
     @GetMapping("/{id}")
-    public Optional<VideoCassette> getById(@PathVariable Long id){
+    public VideoCassette getById(@PathVariable Long id){
         return videoCassetteService.findById(id);
     }
 
@@ -48,6 +45,9 @@ public class VideoCassetteController {
         videoCassetteService.deleteById(id);
     }
 
-
+    @ExceptionHandler
+    public ResponseEntity<String> handleVideoCassetteNotFound(VideoCassetteNotFound exception){
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
 
 }

@@ -1,14 +1,12 @@
 package pl.bykowski.videoapp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import pl.bykowski.videoapp.exception.VideoCassetteNotFound;
 import pl.bykowski.videoapp.model.VideoCassette;
 import pl.bykowski.videoapp.repository.VideoCassetteRepository;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 public class VideoCassetteService {
@@ -21,7 +19,13 @@ public class VideoCassetteService {
     }
 
 
-    public Optional<VideoCassette> findById(Long id){ return videoCassetteRepository.findById(id); }
+    public VideoCassette findById(Long id){
+        return videoCassetteRepository.findById(id)
+            .orElseThrow(() -> new VideoCassetteNotFound("Video Cassette Not Found for id " + id));
+    }
+
+
+
     public Iterable<VideoCassette> findAll(){
         return videoCassetteRepository.findAll();
     }
@@ -30,7 +34,7 @@ public class VideoCassetteService {
     }
 
     public void modify(Long id, VideoCassette newVideoCassette){
-        VideoCassette oldVideoCassette = videoCassetteRepository.findById(id).get();
+        VideoCassette oldVideoCassette = findById(id);
         oldVideoCassette.setTitle(newVideoCassette.getTitle());
         oldVideoCassette.setProductionYear(newVideoCassette.getProductionYear());
         videoCassetteRepository.save(oldVideoCassette);
