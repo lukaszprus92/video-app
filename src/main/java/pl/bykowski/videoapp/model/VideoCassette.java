@@ -24,6 +24,7 @@ public class VideoCassette {
         this.productionYear = productionYear;
     }
 
+
     public Long getId() {
         return id;
     }

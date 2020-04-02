@@ -38,15 +38,10 @@ public class VideoCassetteController {
         videoCassetteService.save(videoCassette);
     }
 
-    @PutMapping()
-    public void updateVideo(@RequestBody VideoCassette videoCassette) {
-        videoCassetteService.save(videoCassette);
+    @PutMapping("/{id}")
+    public void updateVideo(@PathVariable Long id, @RequestBody VideoCassette newVideoCassette) {
+        videoCassetteService.modify(id, newVideoCassette);
     }
-
-    /*@PutMapping("/{id}")
-    public void updateVideo (@PathVariable Long id, @RequestParam String title, @RequestParam LocalDate productionYear){
-        videoCassetteService.modify(id, title, productionYear);
-    }*/
 
     @DeleteMapping("/{id}")
     public void deleteVideo (@PathVariable Long id){
