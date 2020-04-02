@@ -36,7 +36,7 @@ public class VideoCassetteService {
         oldVideoCassette.setProductionYear(newVideoCassette.getProductionYear());
         videoCassetteRepository.save(oldVideoCassette);*/
 
-        // oba działają, ale ten mi lepiej wygląda
+        // oba działają, ale ten mi czyściej wygląda
         videoCassetteRepository.findById(id).get().setTitle(newVideoCassette.getTitle());
         videoCassetteRepository.findById(id).get().setProductionYear(newVideoCassette.getProductionYear());
         videoCassetteRepository.save(videoCassetteRepository.findById(id).get());
