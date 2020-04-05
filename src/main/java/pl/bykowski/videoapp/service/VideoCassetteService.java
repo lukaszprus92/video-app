@@ -41,8 +41,12 @@ public class VideoCassetteService {
     }
 
     public void deleteById(Long id){
-        videoCassetteRepository.deleteById(id);
+        VideoCassette videoCassette = findById(id);
+        videoCassetteRepository.delete(videoCassette);
     }
+
+
+
 
     // TO TYLKO RAZ WYWOŁAŁEM, ŻEBY STWORZYĆ POCZĄTKOWE ELEMENTY:
     //@EventListener(ApplicationReadyEvent.class)
